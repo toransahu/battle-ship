@@ -79,33 +79,57 @@ class Battle:
             # hit
             if Battle.FIELD2[target[0]][target[1]] > 0:
                 Battle.FIELD2[target[0]][target[1]] -= 1
+                print('Player-1 fires a missile with target '+chr(target[0] + 65)+ str(target[1]) +' which got hit')
                 del Battle.TARGETS_OF_PLAYER1[0]
                 return 1
             # miss
             else:
+                print('Player-1 fires a missile with target ' + chr(target[0] + 65) + str(target[1]) + ' which got miss')
                 return 2
         elif player == 2:
             # hit
             if Battle.FIELD1[target[0]][target[1]] > 0:
                 Battle.FIELD1[target[0]][target[1]] -= 1
+                print('Player-2 fires a missile with target ' + chr(target[0] + 65) + str(target[1]) + ' which got hit')
                 del Battle.TARGETS_OF_PLAYER2[0]
                 return 2
             # miss
             else:
+                print('Player-2 fires a missile with target ' + chr(target[0] + 65) + str(target[1]) + ' which got miss')
                 return 1
 
     @staticmethod
     def war():
-        won = False
+        # won = False
         turn_of_player = 1
-        while not won:
-            if turn_of_player == 1 and len(Battle.TARGETS_OF_PLAYER1) > 0:
-                turn_of_player = Battle.fire()
+        points_1 = 0
+        points_2 = 0
+        while True:
+            if turn_of_player == 1:
+                if len(Battle.TARGETS_OF_PLAYER1) > 0:
+                    turn_of_player = Battle.fire(1, Battle.TARGETS_OF_PLAYER1[0])
+                else:
+                    print('Player-1 no more missiles left to launch')
+                    break
             if turn_of_player == 2:
-                turn_of_player = Battle.fire()
+                if len(Battle.TARGETS_OF_PLAYER2) > 0:
+                    turn_of_player = Battle.fire(2, Battle.TARGETS_OF_PLAYER2[0])
+                else:
+                    print('Player-2 no more missiles left to launch')
+                    break
+        for ship in Battle.FIELD1:
+            points_1 += sum(ship)
+        for ship in Battle.FIELD2:
+            points_2 += sum(ship)
+        if points_1 == points_2:
+            print('Peace')
+        elif points_1 > points_2:
+            print('Player-1 won the battle')
+        else:
+            print('Player-2 won the battle')
 
 
 # Battle.get_input()
 Battle.pre_process()
-
+Battle.war()
 
