@@ -12,6 +12,16 @@ class Battle:
         self.FIELD1 = []
         self.FIELD2 = []
 
+        '''
+        self.SIZE_OF_FIELD = '5 E'
+        self.NUMBER_OF_SHIPS = '2'
+        self.TYPES_OF_SHIP = ['Q 1 1 A1 B2', 'P 2 1 D4 C3']
+        self.TARGETS_OF_PLAYER1 = 'A1 B2 B2 B3'
+        self.TARGETS_OF_PLAYER2 = 'A1 B2 B3 A1 D1 E1 D4 D4 D5 D5'
+        self.FIELD1 = []
+        self.FIELD2 = []
+        '''
+
     def get_input(self):
         """
         Take required input from user.
@@ -36,7 +46,7 @@ class Battle:
         """
         Preprocess the input data.
 
-        :return: void
+        :return: 0 (success) or 1 (Failure)
         """
         width, height = self.SIZE_OF_FIELD.strip().split()
         width = int(width)
@@ -45,43 +55,47 @@ class Battle:
         # initialize field cells with 0
         self.FIELD1 = [[0 for _ in range(width)] for _ in range(height)]
         self.FIELD2 = [[0 for _ in range(width)] for _ in range(height)]
+        try:
+            # update field cell values as per the input data
+            for ship_details in self.TYPES_OF_SHIP:
+                category, x, y, cell1, cell2 = ship_details.strip().split()
+                x, y = int(x), int(y)
+                cell1 = (ord(cell1[0]) - 65, int(cell1[1]) - 1)
+                cell2 = (ord(cell2[0]) - 65, int(cell2[1]) - 1)
 
-        # update field cell values as per the input data
-        for ship_details in self.TYPES_OF_SHIP:
-            category, x, y, cell1, cell2 = ship_details.strip().split()
-            x, y = int(x), int(y)
-            cell1 = (ord(cell1[0]) - 65, int(cell1[1]) - 1)
-            cell2 = (ord(cell2[0]) - 65, int(cell2[1]) - 1)
+                if category == 'P':
+                    while x > 0:
+                        self.FIELD1[cell1[0]][cell1[1] + x - 1] = 1
+                        self.FIELD2[cell2[0]][cell2[1] + x - 1] = 1
+                        x -= 1
+                    while y > 0:
+                        self.FIELD1[cell1[0] + y - 1][cell1[1]] = 1
+                        self.FIELD2[cell2[0] + y - 1][cell2[1]] = 1
+                        y -= 1
 
-            if category == 'P':
-                while x > 0:
-                    self.FIELD1[cell1[0]][cell1[1] + x - 1] = 1
-                    self.FIELD2[cell2[0]][cell2[1] + x - 1] = 1
-                    x -= 1
-                while y > 0:
-                    self.FIELD1[cell1[0] + y - 1][cell1[1]] = 1
-                    self.FIELD2[cell2[0] + y - 1][cell2[1]] = 1
-                    y -= 1
+                elif category == 'Q':
+                    while x > 0:
+                        self.FIELD1[cell1[0]][cell1[1] + x - 1] = 2
+                        self.FIELD2[cell2[0]][cell2[1] + x - 1] = 2
+                        x -= 1
+                    while y > 0:
+                        self.FIELD1[cell1[0] + y - 1][cell1[1]] = 2
+                        self.FIELD2[cell2[0] + y - 1][cell2[1]] = 2
+                        y -= 1
 
-            elif category == 'Q':
-                while x > 0:
-                    self.FIELD1[cell1[0]][cell1[1] + x - 1] = 2
-                    self.FIELD2[cell2[0]][cell2[1] + x - 1] = 2
-                    x -= 1
-                while y > 0:
-                    self.FIELD1[cell1[0] + y - 1][cell1[1]] = 2
-                    self.FIELD2[cell2[0] + y - 1][cell2[1]] = 2
-                    y -= 1
-
-        # convert target cells into tuples of (x,y) co-ordinates
-        self.TARGETS_OF_PLAYER1 = [
-            (ord(cell[0]) - 65, int(cell[1]) - 1)
-            for cell in self.TARGETS_OF_PLAYER1.strip().split()
-        ]
-        self.TARGETS_OF_PLAYER2 = [
-            (ord(cell[0]) - 65, int(cell[1]) - 1)
-            for cell in self.TARGETS_OF_PLAYER2.strip().split()
-        ]
+            # convert target cells into tuples of (x,y) co-ordinates
+            self.TARGETS_OF_PLAYER1 = [
+                (ord(cell[0]) - 65, int(cell[1]) - 1)
+                for cell in self.TARGETS_OF_PLAYER1.strip().split()
+            ]
+            self.TARGETS_OF_PLAYER2 = [
+                (ord(cell[0]) - 65, int(cell[1]) - 1)
+                for cell in self.TARGETS_OF_PLAYER2.strip().split()
+            ]
+            return 0
+        except:
+            "Something wrong happened while data pre-processing!"
+            return 1
 
     def fire(self, player, target):
         """
@@ -124,7 +138,7 @@ class Battle:
         """
         Execute war between Player 1 & 2
 
-        :return: 0 (Prints result)
+        :return: 0 (success) or 1 (Failure) (Prints result)
         """
         turn_of_player = 1
 
@@ -169,6 +183,10 @@ class Battle:
             if points_1 == points_2:
                 print('Peace')
                 return 0
+            else:
+                return 1
+        else:
+            return 1
 
 
 '''
