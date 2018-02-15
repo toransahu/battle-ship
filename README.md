@@ -7,3 +7,5 @@ battle area and each player will get same number of ships where each ship may ha
 different size placed at some position in non-overlapping fashion. 
 
 **Note:** players cannot see each others ship's location.
+
+For more details on execution, please refer the [link](https://github.com/toransahu/battle-ship/blob/master/docs/Solution.md).
