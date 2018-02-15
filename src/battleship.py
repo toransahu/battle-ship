@@ -12,16 +12,6 @@ class Battle:
         self.FIELD1 = []
         self.FIELD2 = []
 
-        '''
-        self.SIZE_OF_FIELD = '5 E'
-        self.NUMBER_OF_SHIPS = '2'
-        self.TYPES_OF_SHIP = ['Q 1 1 A1 B2', 'P 2 1 D4 C3']
-        self.TARGETS_OF_PLAYER1 = 'A1 B2 B2 B3'
-        self.TARGETS_OF_PLAYER2 = 'A1 B2 B3 A1 D1 E1 D4 D4 D5 D5'
-        self.FIELD1 = []
-        self.FIELD2 = []
-        '''
-
     def get_input(self):
         """
         Take required input from user.
