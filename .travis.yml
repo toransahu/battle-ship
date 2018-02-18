@@ -3,7 +3,10 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - pip install -r requirements.pip
+  # - pip install -r requirements.pip
+  - pip install pipenv
+  - pipenv install
 # command to run tests
 script:
-  - pytest src/test.py # or py.test for Python versions 3.5 and below
+  # - pytest src/test.py # or py.test for Python versions 3.5 and below
+  - pipenv run pytest src/test.py
